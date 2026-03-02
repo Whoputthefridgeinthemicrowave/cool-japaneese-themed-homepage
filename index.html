@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homepage</title>
+  <!-- Tailwind CSS for styling -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Use the Inter font family */
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #ffd5f2; /* Fallback background for light mode */
+    }
+
+    /* Container for video backgrounds to manage stacking */
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+    }
+
+    /* Styling for both video elements */
+    .video-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 1.5s ease-in-out; /* Smooth crossfade transition */
+    }
+    
+    /* Overlay to slightly lighten the video and improve text readability */
+    .video-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background-color: #00000031;
+    }
+
+    /* Initial fade-in animation for the first video */
+    @keyframes initialFadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    /* Rise-up animation for content */
+    @keyframes riseUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Apply animation to elements with a staggered delay */
+    .animated-rise {
+        opacity: 0; /* Start hidden */
+        animation: riseUp 0.4s ease-out forwards;
+    }
+    /*Disappearing Fix*/
+form.animated-rise > div {
+  z-index: 1;
+}
+
+
+
+
+    /* Stagger the animation delays for a smoother effect */
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s;}
+    .delay-4 { animation-delay: 0.4s;}
+    .delay-5 { animation-delay: 0.5s; }
+    .delay-6 { animation-delay: 0.6s;}
+
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- Video Background Elements -->
+  <div class="video-overlay"></div>
+  <div class="video-container">
+    <video id="video1" playsinline muted class="video-background" style="opacity: 0; animation: initialFadeIn 1.2s forwards;">
+        <source src="vid.mp4" type="video/mp4" />
+    </video>
+    <video id="video2" playsinline muted class="video-background" style="opacity: 0;">
+        <source src="vid.mp4" type="video/mp4" />
+    </video>
+  </div>
+
+
+  <!-- Main Content Container -->
+  <main class="min-h-screen w-full flex items-center p-4 sm:p-8">
+    <div class="w-full max-w-md md:max-w-sm" style="margin-left: 80px;">
+
+      <!-- Google Search Form -->
+      <form action="https://www.google.com/search" method="get" target="_blank" class="relative w-full mb-6 animated-rise delay-1">
+        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+          <!-- Search Icon SVG -->
+          <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+        </div>
+        <input 
+          type="text" 
+          name="q" 
+          placeholder="Search with Google" 
+          class="w-full bg-pink-200/60 backdrop-blur-sm border border-gray-300/80 rounded-lg py-3 pl-11 pr-4 text-white placeholder-white/70 focus:ring-2 focus:ring-pink-300 focus:outline-none transition duration-300"
+          autocomplete="off"
+          autofocus
+        />
+      </form>
+      
+      <!-- Pinned Websites Grid -->
+      <div class="grid grid-cols-1 gap-4">
+        
+        <!-- Gemini Link -->
+        <a href="https://gemini.google.com/" target="_blank" class="flex items-center p-4 bg-white/60 backdrop-blur-sm border border-gray-300/80 rounded-lg hover:bg-white/90 hover:border-blue-500 transition-all duration-300 animated-rise delay-2">
+          <img src="https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Gemini_SparkIcon_.width-500.format-webp.webp" alt="Gemini Icon" class="w-6 h-6 mr-4 rounded-sm">
+          <span class="font-medium">Gemini</span>
+        </a>
+
+        <!-- ChatGPT Link -->
+        <a href="https://chat.openai.com/" target="_blank" class="flex items-center p-4 bg-white/60 backdrop-blur-sm border border-gray-300/80 rounded-lg hover:bg-white/90 hover:border-green-500 transition-all duration-300 animated-rise delay-3">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/2048px-ChatGPT_logo.svg.png" alt="ChatGPT Icon" class="w-6 h-6 mr-4 rounded-sm">
+          <span class="font-medium">ChatGPT</span>
+        </a>
+
+        <!-- Class Link -->
+        <a href="https://classroom.google.com/" target="_blank" class="flex items-center p-4 bg-white/60 backdrop-blur-sm border border-gray-300/80 rounded-lg hover:bg-white/90 hover:border-red-500 transition-all duration-300 animated-rise delay-4">
+          <img src="Gclass.svg.png" alt="Classroom Icon" class="w-6 h-6 mr-4 rounded-sm">
+          <span class="font-medium">Classroom</span>
+        </a>
+        
+        <!-- NSSC Link -->
+        <a href="https://nssc.ac.th/" target="_blank" class="flex items-center p-4 bg-white/60 backdrop-blur-sm border border-gray-300/80 rounded-lg hover:bg-white/90 hover:border-indigo-500 transition-all duration-300 animated-rise delay-5">
+          <img src="7(1).png" alt="NSSC Icon" class="w-6 h-6 mr-4 rounded-sm">
+          <span class="font-medium">Nakhonsawan School</span>
+        </a>
+
+        <!-- Canva Link -->
+        <a href="https://www.canva.com/" target="_blank" class="flex items-center p-4 bg-white/60 backdrop-blur-sm border border-gray-300/80 rounded-lg hover:bg-white/90 hover:border-cyan-400 transition-all duration-300 animated-rise delay-6">
+           <img src="canva-icon.png" alt="Canva Icon" class="w-6 h-6 mr-4 rounded-sm">
+          <span class="font-medium">Canva</span>
+        </a>
+        <a href="https://mail.google.com/" target="_blank" class="flex items-center p-4 bg-white/60 backdrop-blur-sm border border-gray-300/80 rounded-lg hover:bg-white/90 hover:border-cyan-400 transition-all duration-300 animated-rise delay-6">
+           <img src="gmail.png" alt="Mail Icon" class="w-6 h-6 mr-4 rounded-sm">
+          <span class="font-medium">Gmail</span>
+        </a>
+      </div>
+    </div>
+  </main>
+  
+  <script>
+    // JavaScript for Crossfading Video Background
+    document.addEventListener('DOMContentLoaded', function() {
+        const video1 = document.getElementById('video1');
+        const video2 = document.getElementById('video2');
+        let activeVideo = video1;
+        let inactiveVideo = video2;
+
+        // Start the first video
+        activeVideo.play().catch(error => console.log("Autoplay was prevented:", error));
+
+        const crossfade = () => {
+            // Check if the video has a valid duration to prevent errors
+            if (isNaN(activeVideo.duration)) return;
+          
+            // Prepare the next video to play
+            inactiveVideo.currentTime = 0;
+            inactiveVideo.play().catch(error => console.log("Autoplay was prevented:", error));
+
+            // Fade in the inactive video and fade out the active one
+            inactiveVideo.style.opacity = 1;
+            activeVideo.style.opacity = 0;
+
+            // Swap the active and inactive video references
+            [activeVideo, inactiveVideo] = [inactiveVideo, activeVideo];
+        };
+        
+        // Listen for when the active video is about to end
+        video1.addEventListener('timeupdate', function() {
+            if (this.duration - this.currentTime <= 1.5) {
+                if (activeVideo === this) crossfade();
+            }
+        });
+
+        video2.addEventListener('timeupdate', function() {
+            if (this.duration - this.currentTime <= 1.5) {
+                if (activeVideo === this) crossfade();
+            }
+        });
+    });
+  </script>
+</body>
+</html>
+
