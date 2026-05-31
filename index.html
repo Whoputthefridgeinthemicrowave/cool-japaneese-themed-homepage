@@ -4,21 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Homepage</title>
-  <!-- Tailwind CSS for styling -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
-  
   <style>
-    /* Use the Inter font family */
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap');
+  </style>
+  <style>
     body {
-      font-family: 'Inter', sans-serif;
-      background-color: #ffd5f2; /* Fallback background for light mode */
+      font-family: 'Quicksand', sans-serif;
+      background-color: #ffd5f2;
     }
 
-    /* Container for video backgrounds to manage stacking */
     .video-container {
       position: fixed;
       top: 0;
@@ -28,7 +26,6 @@
       z-index: -2;
     }
 
-    /* Styling for both video elements */
     .video-background {
       position: absolute;
       top: 0;
@@ -36,10 +33,9 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: opacity 1.5s ease-in-out; /* Smooth crossfade transition */
+      transition: opacity 1.5s ease-in-out; 
     }
     
-    /* Overlay to slightly lighten the video and improve text readability */
     .video-overlay {
         position: fixed;
         top: 0;
@@ -47,42 +43,27 @@
         width: 100%;
         height: 100%;
         z-index: -1;
-        background-color: #00000031;
     }
 
-    /* Initial fade-in animation for the first video */
     @keyframes initialFadeIn {
-      to {
-        opacity: 1;
-      }
+      to { opacity: 1; }
     }
 
-    /* Rise-up animation for content */
     @keyframes riseUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
     
-    /* Apply animation to elements with a staggered delay */
     .animated-rise {
-        opacity: 0; /* Start hidden */
+        opacity: 0;
         animation: riseUp 0.4s ease-out forwards;
     }
-    /*Disappearing Fix*/
-form.animated-rise > div {
-  z-index: 1;
-}
-
-
-
-
-    /* Stagger the animation delays for a smoother effect */
+    
+    /* Disappearing Fix */
+    form.animated-rise > div {
+      z-index: 1;
+    }
+    
     .delay-1 { animation-delay: 0.1s; }
     .delay-2 { animation-delay: 0.2s; }
     .delay-3 { animation-delay: 0.3s;}
@@ -90,11 +71,43 @@ form.animated-rise > div {
     .delay-5 { animation-delay: 0.5s; }
     .delay-6 { animation-delay: 0.6s;}
 
+    /* --- Spotlight Search & Bookmark Animations --- */
+    #bookmarks-container {
+      transition: opacity 0.25s ease-out, transform 0.25s ease-out;
+    }
+    
+    .bookmarks-visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    
+    .bookmarks-hidden {
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+    }
+
+    @keyframes popIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.97);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+    
+    .animate-pop-in {
+      animation: popIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    
   </style>
 </head>
 <body class="text-gray-800">
 
-  <!-- Video Background Elements -->
   <div class="video-overlay"></div>
   <div class="video-container">
     <video id="video1" playsinline muted class="video-background" style="opacity: 0; animation: initialFadeIn 1.2s forwards;">
@@ -106,17 +119,15 @@ form.animated-rise > div {
   </div>
 
 
-  <!-- Main Content Container -->
   <main class="min-h-screen w-full flex items-center p-4 sm:p-8">
-    <div class="w-full max-w-md md:max-w-sm" style="margin-left: 80px;">
+    <div class="w-full max-w-md md:max-w-sm relative" style="margin-left: 80px;">
 
-      <!-- Google Search Form -->
-      <form action="https://www.google.com/search" method="get" target="_blank" class="relative w-full mb-6 animated-rise delay-1">
+      <form id="search-form" action="https://www.google.com/search" method="get" target="_blank" class="relative w-full mb-6 animated-rise delay-1 z-50">
         <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-          <!-- Search Icon SVG -->
           <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
         </div>
         <input 
+          id="search-input"
           type="text" 
           name="q" 
           placeholder="Search with Google" 
@@ -124,10 +135,30 @@ form.animated-rise > div {
           autocomplete="off"
           autofocus
         />
+        
+       <div
+          id="suggestions-container"
+          class="absolute left-0 right-0 top-full mt-1 bg-pink-100/40 backdrop-blur-xl border border-pink-200/50 rounded-2xl shadow-2xl overflow-hidden hidden text-gray-700 z-50"
+          style="margin-top: 25px;">
+        </div>
+        <div
+  id="search-helper"
+  class="
+    hidden
+    mt-3
+    text-center
+    text-xs
+    text-gray-500/60
+    select-none
+    pointer-events-none
+  "
+>
+  ↖ Click arrow to autocomplete
+</div>
       </form>
       
       <!-- Pinned Websites Grid -->
-      <div class="grid grid-cols-1 gap-4">
+      <div id="bookmarks-container" class="grid grid-cols-1 gap-4 bookmarks-visible">
         
         <!-- Gemini Link -->
         <a href="https://gemini.google.com/" target="_blank" class="flex items-center p-4 bg-white/60 backdrop-blur-sm border border-gray-300/80 rounded-lg hover:bg-white/90 hover:border-blue-500 transition-all duration-300 animated-rise delay-2">
@@ -167,46 +198,252 @@ form.animated-rise > div {
   </main>
   
   <script>
-    // JavaScript for Crossfading Video Background
-    document.addEventListener('DOMContentLoaded', function() {
-        const video1 = document.getElementById('video1');
-        const video2 = document.getElementById('video2');
-        let activeVideo = video1;
-        let inactiveVideo = video2;
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // --- 1. Video Crossfade Logic ---
+      const video1 = document.getElementById('video1');
+      const video2 = document.getElementById('video2');
+      let activeVideo = video1;
+      let inactiveVideo = video2;
 
-        // Start the first video
-        activeVideo.play().catch(error => console.log("Autoplay was prevented:", error));
+      activeVideo.play().catch(error => console.log("Autoplay was prevented:", error));
 
-        const crossfade = () => {
-            // Check if the video has a valid duration to prevent errors
-            if (isNaN(activeVideo.duration)) return;
-          
-            // Prepare the next video to play
-            inactiveVideo.currentTime = 0;
-            inactiveVideo.play().catch(error => console.log("Autoplay was prevented:", error));
+      const crossfade = () => {
+          if (isNaN(activeVideo.duration)) return;
+          inactiveVideo.currentTime = 0;
+          inactiveVideo.play().catch(error => console.log("Autoplay was prevented:", error));
+          inactiveVideo.style.opacity = 1;
+          activeVideo.style.opacity = 0;
+          [activeVideo, inactiveVideo] = [inactiveVideo, activeVideo];
+      };
+      
+      video1.addEventListener('timeupdate', function() {
+          if (this.duration - this.currentTime <= 1.5) {
+              if (activeVideo === this) crossfade();
+          }
+      });
 
-            // Fade in the inactive video and fade out the active one
-            inactiveVideo.style.opacity = 1;
-            activeVideo.style.opacity = 0;
+      video2.addEventListener('timeupdate', function() {
+          if (this.duration - this.currentTime <= 1.5) {
+              if (activeVideo === this) crossfade();
+          }
+      });
 
-            // Swap the active and inactive video references
-            [activeVideo, inactiveVideo] = [inactiveVideo, activeVideo];
-        };
+      // --- 2. Spotlight Search UI State Helpers ---
+      const setHomeMode = () => {
+        const suggestions = document.getElementById('suggestions-container');
+        const bookmarks = document.getElementById('bookmarks-container');
+        const backBtn = document.getElementById('back-to-home-btn');
         
-        // Listen for when the active video is about to end
-        video1.addEventListener('timeupdate', function() {
-            if (this.duration - this.currentTime <= 1.5) {
-                if (activeVideo === this) crossfade();
-            }
-        });
+        suggestions.classList.add('hidden');
+        suggestions.classList.remove('animate-pop-in');
+        
+        if (bookmarks) {
+          bookmarks.classList.remove('bookmarks-hidden');
+          bookmarks.classList.add('bookmarks-visible');
+        }
+        if (backBtn) {
+          backBtn.classList.remove('back-btn-visible');
+          backBtn.classList.add('back-btn-hidden');
+        }
+      };
 
-        video2.addEventListener('timeupdate', function() {
-            if (this.duration - this.currentTime <= 1.5) {
-                if (activeVideo === this) crossfade();
-            }
-        });
+      const setSearchMode = () => {
+        const suggestions = document.getElementById('suggestions-container');
+        const bookmarks = document.getElementById('bookmarks-container');
+        const backBtn = document.getElementById('back-to-home-btn');
+        
+        if (suggestions.classList.contains('hidden')) {
+          suggestions.classList.remove('hidden');
+          suggestions.classList.add('animate-pop-in');
+        }
+        
+        if (bookmarks) {
+          bookmarks.classList.remove('bookmarks-visible');
+          bookmarks.classList.add('bookmarks-hidden');
+        }
+        if (backBtn) {
+          backBtn.classList.remove('back-btn-hidden');
+          backBtn.classList.add('back-btn-visible');
+        }
+      };
+
+      window.setHomeMode = setHomeMode;
+      window.setSearchMode = setSearchMode;
+
+      // --- 3. Live Search Prediction Logic ---
+      const searchInput = document.getElementById('search-input');
+      const searchForm = document.getElementById('search-form');
+      const suggestionsContainer = document.getElementById('suggestions-container');
+      
+      let debounceTimer;
+      let activeIndex = -1;
+      let originalTypedQuery = '';
+
+      // Handle Typing
+      searchInput.addEventListener('input', (e) => {
+        clearTimeout(debounceTimer);
+        const query = e.target.value.trim();
+        originalTypedQuery = e.target.value; 
+        activeIndex = -1; 
+
+        if (query.length === 0) {
+          suggestionsContainer.innerHTML = '';
+          window.setHomeMode(); 
+          return;
+        }
+
+debounceTimer = setTimeout(() => {
+  const script = document.createElement('script');
+  script.src =
+    `https://suggestqueries.google.com/complete/search?client=chrome&hl=en&q=${encodeURIComponent(query)}&callback=handleGooglePredictions`;
+  document.body.appendChild(script);
+  script.onload = () => script.remove();
+}, 200);
+      });
+
+      // Handle Arrow Keys for Dropdown
+      searchInput.addEventListener('keydown', (e) => {
+        const listItems = suggestionsContainer.querySelectorAll('li');
+        if (suggestionsContainer.classList.contains('hidden') || listItems.length === 0) return;
+
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          if (activeIndex < listItems.length - 1) {
+            if (activeIndex >= 0) listItems[activeIndex].classList.remove('bg-white/60', 'scale-[1.02]');
+            activeIndex++;
+            listItems[activeIndex].classList.add('bg-white/60', 'scale-[1.02]');
+            searchInput.value = listItems[activeIndex].innerText.trim();
+          }
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          if (activeIndex > 0) {
+            listItems[activeIndex].classList.remove('bg-white/60', 'scale-[1.02]');
+            activeIndex--;
+            listItems[activeIndex].classList.add('bg-white/60', 'scale-[1.02]');
+            searchInput.value = listItems[activeIndex].innerText.trim();
+          } else if (activeIndex === 0) {
+            listItems[activeIndex].classList.remove('bg-white/60', 'scale-[1.02]');
+            activeIndex = -1;
+            searchInput.value = originalTypedQuery;
+          }
+        } else if (e.key === 'Escape') {
+          window.setHomeMode(); 
+        }
+      });
+
+      // Close if clicking outside
+      document.addEventListener('click', (e) => {
+        if (!searchForm.contains(e.target)) {
+          window.setHomeMode(); 
+        }
+      });
     });
+
+   // --- 4. Google JSONP Callback function ---
+    window.handleGooglePredictions = function(data) {
+      const suggestionsContainer = document.getElementById('suggestions-container');
+      const searchInput = document.getElementById('search-input');
+      const searchForm = document.getElementById('search-form');
+      
+      let suggestions = [];
+
+if (Array.isArray(data) && Array.isArray(data[1])) {
+
+suggestions = data[1]; // ✅ the actual suggestions are at index 1
+
+} 
+      
+      if (suggestions.length > 0) {
+        let html = '<ul class="py-1">';
+        
+        suggestions.slice(0, 9).forEach(suggestion => {
+          html += `
+<li class="
+  mx-2 my-2 px-4 py-3 rounded-xl
+  bg-white/40 hover:bg-white/60
+  transition-all duration-200
+  flex items-center gap-3
+  text-sm font-semibold text-gray-700
+">
+
+  <svg xmlns="http://www.w3.org/2000/svg" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd" clip-rule="evenodd" viewBox="0 0 512 456.549" class="w-3.5 h-3.5 flex-shrink-0 fill-pink-400">
+      <path fill-rule="nonzero" d="M463.044 117.283c-10.125-26.729-28.412-47.537-50.269-60.578-13.478-8.048-28.343-13.125-43.461-14.808-14.879-1.655-30.018.007-44.284 5.407-37.461 14.189-50.601 41.912-66.522 74.028-3.422 6.887-1.964 6.964-5.893.078-17.576-30.87-33.786-63.684-70.127-75.725-12.879-4.26-26.554-5.408-40.088-3.845-13.83 1.606-27.546 6.028-40.207 12.83-25.068 13.485-45.883 36.215-55.382 64.916-31.525 95.237 83.379 188.376 170.42 258.918 12.97 10.506 25.363 20.547 36.834 30.251 15.449-13.288 32.356-26.695 49.995-40.687 87.815-69.634 195.291-154.872 158.984-250.785zm-29.173-95.842c29.483 17.589 54.094 45.531 67.663 81.351 46.924 123.973-73.479 219.471-171.871 297.485-22.829 18.11-44.418 35.228-61.078 50.41-7.626 7.478-19.85 7.894-27.969.711-13.9-12.323-31.033-26.201-49.312-41.01C94.743 332.128-32.73 228.808 7.688 106.7c12.956-39.151 41.144-70.042 75.028-88.266C99.939 9.175 118.705 3.147 137.724.943c19.337-2.232 38.983-.556 57.65 5.619 22.047 7.302 42.601 20.751 59.55 41.271 16.316-18.527 35.37-31.35 55.614-39.018 20.513-7.759 42.13-10.168 63.283-7.816 20.913 2.324 41.453 9.337 60.05 20.442z" />
+  </svg>
+
+  <span class="flex-1">
+    ${suggestion}
+  </span>
+
+  <button
+    type="button"
+    class="insert-btn p-1 rounded-full hover:bg-white/40 transition-colors"
+    data-suggestion="${suggestion}"
+    tabindex="-1"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="w-4 h-4 text-pink-400"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      stroke-width="2"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M7 17L17 7M17 7H9M17 7V15"
+      />
+    </svg>
+  </button>
+
+</li>`;
+        });
+        html += '</ul>';
+        
+        suggestionsContainer.innerHTML = html;
+        const insertButtons = suggestionsContainer.querySelectorAll('.insert-btn');
+
+        insertButtons.forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+
+            const suggestion = btn.dataset.suggestion;
+
+            searchInput.value = suggestion;
+
+            searchInput.focus();
+
+            searchInput.dispatchEvent(
+              new Event('input', { bubbles: true })
+            );
+          });
+        });
+        
+        window.setSearchMode();
+
+        const listItems = suggestionsContainer.querySelectorAll('li');
+        
+        listItems.forEach((li, index) => {
+          li.addEventListener('mouseenter', () => {
+             listItems.forEach(item => item.classList.remove('bg-white/60', 'scale-[1.02]'));
+             li.classList.add('bg-white/60', 'scale-[1.02]');
+             activeIndex = index; 
+          });
+
+          li.addEventListener('click', () => {
+            searchInput.value = li.innerText.trim(); 
+            window.setHomeMode();
+            searchForm.submit(); 
+          });
+
+        });
+        
+      } else {
+        window.setHomeMode(); 
+      }
+    };
+    
   </script>
 </body>
 </html>
-
